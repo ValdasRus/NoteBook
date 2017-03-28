@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 
 public class ApplicationNote {
 
@@ -27,10 +22,10 @@ public class ApplicationNote {
 		JFrame frame = new JFrame("Vilko popieriai");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JList list = new JList();
+		JList<String> list = new JList<String>();
 		list.setBounds(10, 10, 150, 300);
 
-		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		List<ContactNote> contacts = bn.showAll();
 		for (int i = 0; i < contacts.size(); i++) {
 			ContactNote contact = contacts.get(i);
@@ -39,10 +34,10 @@ public class ApplicationNote {
 		list.setModel(listModel);
 		
 		
-		JList list1 = new JList();
+		JList<String> list1 = new JList<String>();
 		list1.setBounds(170, 10, 200, 300);
 
-		DefaultListModel listModel1 = new DefaultListModel();
+		DefaultListModel<String> listModel1 = new DefaultListModel<String>();
 		List<ContactNote> contacts1 = bn.showAll();
 		for (int i = 0; i < contacts1.size(); i++) {
 			ContactNote contact1 = contacts1.get(i);
@@ -62,7 +57,7 @@ public class ApplicationNote {
 
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				JList list = (JList) evt.getSource();
+				JList<String> list = extracted(evt);
 				if (evt.getClickCount() == 2) {
 					// JOptionPane.showMessageDialog(frame, "pazymejai varda");
 					int index = list.locationToIndex(evt.getPoint());
@@ -73,6 +68,12 @@ public class ApplicationNote {
 						titleTextField.setText((String) list.getModel().getElementAt(index));
 					}
 				}
+			}
+
+			private JList<String> extracted(MouseEvent evt) {
+				@SuppressWarnings("unchecked")
+				JList<String> source = (JList<String>) evt.getSource();
+				return source;
 			}
 		});
 
